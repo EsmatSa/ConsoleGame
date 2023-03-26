@@ -5,7 +5,7 @@ namespace ConsoleGame;
 public partial class Board
 {
     public Player Player { get; }
-    private readonly Random _rnd = new Random(999); 
+    private readonly Random _rnd = new Random(3654); 
 
     public int Width { get; set; }
     public int Height { get; set; }
