@@ -8,7 +8,7 @@ To play the game, you need to clone the repository and compile the C# code using
 How to Play
 When you start the game, you will be prompted to select the language (English or French) and the board size. Once you have chosen your preferences, the game will generate a board with randomly placed gold and trap.
 
-You will then be placed at the starting point of the board, and you must navigate through the spaces using the keywords( go north , go south, ...) to find gold while avoiding trap. The game ends when you either find the gold on the board or fall into a trap then you can start a new round if you like it. you can quit the game whenever you want.
+You will then be placed at the starting point of the board, and you must navigate through the Cells using the keywords( go north , go south, ...) to find gold while avoiding trap. The game ends when you either find the gold on the board or fall into a trap then you can start a new round if you like it. you can quit the game whenever you want.
 
 Features
 Random board generation with customizable size

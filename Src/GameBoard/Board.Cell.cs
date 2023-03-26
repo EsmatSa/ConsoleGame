@@ -7,10 +7,10 @@ namespace ConsoleGame
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="c">coulumn of space</param>
-        /// <param name="r">row of space</param>
+        /// <param name="c">coulumn of Cell</param>
+        /// <param name="r">row of Cell</param>
         /// <returns></returns>
-        private int CalculateSpaceIndex(int c, int r)
+        private int CalculateCellIndex(int c, int r)
         {
             return Math.Clamp(c, -1, Width) + Math.Clamp(r, -1, Height) * Width;
         }
@@ -19,27 +19,27 @@ namespace ConsoleGame
         /// </summary>
         /// <param name="width"></param>
         /// <param name="height"></param>
-        public void CreateSpaces(int width, int height)
+        public void CreateCells(int width, int height)
         {
             Width = Math.Clamp(width, 2, 10);
             Height = Math.Clamp(height, 2, 10);
-            Spaces = new Space[Size];
+            Cells = new Cell[Size];
             for (int i = 0; i < Size; i++)
             {
-                var tmpSpace = new Space();
+                var tmpCell = new Cell();
                 var c = i % Width;
                 var r = i / Width;
-                tmpSpace.Name = String.Format(Text.Language.DefaultSpaceName, i, c, r);
+                tmpCell.Name = String.Format(Text.Language.DefaultCellName, i, c, r);
                 if (c < Width - 1)
-                    tmpSpace.Neighbors[Directions.East] = CalculateSpaceIndex(c + 1, r);
+                    tmpCell.Neighbors[Directions.Right] = CalculateCellIndex(c + 1, r);
                 if (c > 0)
-                    tmpSpace.Neighbors[Directions.West] = CalculateSpaceIndex(c - 1, r);
+                    tmpCell.Neighbors[Directions.Left] = CalculateCellIndex(c - 1, r);
                 if (r < Height - 1)
-                    tmpSpace.Neighbors[Directions.North] = CalculateSpaceIndex(c, r + 1);
+                    tmpCell.Neighbors[Directions.Up] = CalculateCellIndex(c, r + 1);
                 if (r > 0)
-                    tmpSpace.Neighbors[Directions.South] = CalculateSpaceIndex(c, r - 1);
+                    tmpCell.Neighbors[Directions.Down] = CalculateCellIndex(c, r - 1);
 
-                Spaces[i] = tmpSpace;
+                Cells[i] = tmpCell;
 
             }
 
@@ -58,19 +58,19 @@ namespace ConsoleGame
             return false;
         }
         /// <summary>
-        /// set Gold and Trap Spaces on Board with random function
+        /// set Gold and Trap Cells on Board with random function
         /// </summary>
-        public void SetSpaceFortunes()
+        public void SetCellFortunes()
         {
             var goldIndex = _rnd.Next(0, this.Size - 1);
-            Spaces[goldIndex].Fortune = SpaceFortune.Gold;
+            Cells[goldIndex].Fortune = CellFortune.Gold;
 
             var trapIndex = _rnd.Next(0, this.Size - 1);
             while (trapIndex == goldIndex)
             {
                 trapIndex = _rnd.Next(0, this.Size - 1);
             }
-            Spaces[trapIndex].Fortune = SpaceFortune.Trap;
+            Cells[trapIndex].Fortune = CellFortune.Trap;
 
         }
     }

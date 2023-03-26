@@ -10,7 +10,7 @@ public partial class Board
     public int Width { get; set; }
     public int Height { get; set; }
     public int Size => Width * Height ;
-    public Space[] Spaces { get; private set; }
+    public Cell[] Cells { get; private set; }
 
     public Board(Player player)
     {

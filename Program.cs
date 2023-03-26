@@ -1,29 +1,28 @@
 ﻿using ConsoleGame;
 
 // Load Dictionary of messages
-Console.WriteLine("EN|FR");
+Console.WriteLine("EN|FR (select EN for English or FR for French, English is default language)");
 var lng = Console.ReadLine();
-if (lng != null)
+
+switch (lng?.ToUpper())
 {
-    switch (lng.Substring(0, 2).ToUpper())
-    {
-        case "EN":
-            {
-                Text.LoadLanguage(new English());
-                break;
-            }
-        case "FR":
-            {
-                Text.LoadLanguage(new French());
-                break;
-            }
-        default:
-            {
-                Text.LoadLanguage(new English());
-                break;
-            }
-    }
+    case "EN":
+        {
+            Text.LoadLanguage(new English());
+            break;
+        }
+    case "FR":
+        {
+            Text.LoadLanguage(new French());
+            break;
+        }
+    default:
+        {
+            Text.LoadLanguage(new English());
+            break;
+        }
 }
+
 Console.WriteLine(Text.Language.Welcome);
 
 var gameFlag = true;
@@ -41,26 +40,26 @@ while (gameFlag)
         validSize = board.TryParseBoardSize(boardSize, out width, out height);
     }
 
-    board.CreateSpaces(width, height);
-    board.SetSpaceFortunes();
-    board.GoToStartingSpace();
+    board.CreateCells(width, height);
+    board.SetCellFortunes();
+    board.GoToStartingCell();
 
     var moveFlag = true;
-    Space lastSpace = null;
+    Cell lastCell = null;
     while (moveFlag)
     {
-        if (lastSpace != board.CurrentSpace) // for each movement, new Space is described in console , if no move then nothing described
+        if (lastCell != board.CurrentCell) // for each movement, new Cell is described in console , if no move then nothing described
         {
-            Console.WriteLine(board.CurrentSpace.ToString());
-            switch (board.CurrentSpace.Fortune)
+            Console.WriteLine(board.CurrentCell.ToString());
+            switch (board.CurrentCell.Fortune)
             {
-                case SpaceFortune.Gold:
+                case CellFortune.Gold:
                     {
                         Console.WriteLine(Text.Language.Win);
                         moveFlag = false;
                         break;
                     }
-                case SpaceFortune.Trap:
+                case CellFortune.Trap:
                     {
                         Console.WriteLine(Text.Language.GameOver);
                         moveFlag = false;
@@ -70,7 +69,7 @@ while (gameFlag)
                     break;
             }
 
-            lastSpace = board.CurrentSpace;
+            lastCell = board.CurrentCell;
             board.Player.PlayerMoves++;
 
             if (board.Player.PlayerMoves == board.Size && moveFlag)
@@ -87,17 +86,16 @@ while (gameFlag)
             if (action == Text.Language.Quit)
                 moveFlag = false;
             else
-                
-                board.Move(action.Split(' '));
+
+                board.Move(action);
         }
     }
     Console.WriteLine(Text.Language.GameContinue);
     string response = Console.ReadLine();
 
-    if (response.ToLower() == "y")
+    if (response.ToLower() == Text.Language.GameContinueYes)
         gameFlag = true;
-
-    else if (response.ToLower() == "n")
+    else
     {
         gameFlag = false;
         Console.WriteLine(Text.Language.GameFinished);

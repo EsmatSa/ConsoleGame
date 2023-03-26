@@ -1,5 +1,5 @@
 ﻿namespace ConsoleGame;
-public enum SpaceFortune
+public enum CellFortune
 {
     Blank = 0,
     Gold,

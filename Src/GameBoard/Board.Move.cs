@@ -4,37 +4,38 @@ namespace ConsoleGame
 {
     public partial class Board
     {
-        public Space CurrentSpace { get; set; }
-        public void GoToSpace(int index)
+        public Cell CurrentCell { get; set; }
+        public void GoToCell(int index)
         {
-            if (CurrentSpace != null)
-                CurrentSpace.Visited = true;
-            CurrentSpace = Spaces[index];
+            if (CurrentCell != null)
+                CurrentCell.Visited = true;
+            CurrentCell = Cells[index];
         }
-        public void GoToStartingSpace()
+        public void GoToStartingCell()
         {
-            GoToSpace(_rnd.Next(0, Spaces.Length));
+            GoToCell(_rnd.Next(0, Cells.Length));
         }
-        public void Move(string[] args)
+        public void Move(string direction)
         {
-            if (args.Length > 1 && args[0] == Text.Language.Go.ToLower() && args[1].Length > 1)
+            try
             {
-
-                var dir = args[1].Substring(0, 1).ToUpper() + args[1].Substring(1).ToLower();
+                var dir = direction.Substring(0, 1).ToUpper() + direction.Substring(1).ToLower();
                 Enum.TryParse(dir, out Directions newDirection);
 
 
-                var nextSpaceIndex = CurrentSpace.Neighbors[newDirection];
+                var nextCellIndex = CurrentCell.Neighbors[newDirection];
 
-                if (nextSpaceIndex == -1 || newDirection == Directions.None)
+                if (nextCellIndex == -1 || newDirection == Directions.None)
                     Console.WriteLine(Text.Language.GoError);
 
                 else
-                    GoToSpace(nextSpaceIndex);
+                    GoToCell(nextCellIndex);
             }
-            else
+            catch (Exception)
+            {
                 Console.WriteLine(Text.Language.ActionError);
 
+            }
         }
     }
 }
